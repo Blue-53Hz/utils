@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 /**
- * jdbc¹¤¾ßÀà
+ * jdbcå·¥å…·ç±»
  * @author APPle
  *
  */
@@ -21,19 +21,19 @@ public class JdbcUtil {
 	
 	static{
 		try {
-			//¶ÁÈ¡jdbc.propertiesÎÄ¼ş
+			//è¯»å–jdbc.propertiesæ–‡ä»¶
 			Properties prop = new Properties();
-			//Ê¹ÓÃÀàÂ·¾¶·½Ê½¶ÁÈ¡ÅäÖÃÎÄ¼ş
+			//ä½¿ç”¨ç±»è·¯å¾„æ–¹å¼è¯»å–é…ç½®æ–‡ä»¶
 			InputStream in = JdbcUtil.class.getResourceAsStream("/jdbc.properties"); 
-			//¼ÓÔØÎÄ¼ş
+			//åŠ è½½æ–‡ä»¶
 			prop.load(in);
-			//¶ÁÈ¡ÅäÖÃÎÄ¼şµÄÄÚÈİ
+			//è¯»å–é…ç½®æ–‡ä»¶çš„å†…å®¹ï¼Œè¿™æ ·å°±å¯ä»¥å°†è¿æ¥çš„å‚æ•°æ”¾åˆ°jdbc.propertiesçš„é…ç½®æ–‡ä»¶ä¸­
 			url = prop.getProperty("url");
 			user = prop.getProperty("user");
 			password = prop.getProperty("password");
 			driverClass = prop.getProperty("driverClass");
 			
-			//×¢²áÇı¶¯³ÌĞò
+			//æ³¨å†Œé©±åŠ¨ç¨‹åº
 			Class.forName(driverClass);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -42,7 +42,7 @@ public class JdbcUtil {
 	
 	
 	/**
-	 * »ñÈ¡Á¬½Ó·½·¨
+	 * è·å–è¿æ¥æ–¹æ³•
 	 */
 	public static Connection getConnection(){
 		try {
@@ -55,7 +55,7 @@ public class JdbcUtil {
 	}
 	
 	/**
-	 * ÊÍ·Å×ÊÔ´·½·¨
+	 * é‡Šæ”¾èµ„æºæ–¹æ³•
 	 */
 	public static void close(ResultSet rs,Statement stmt,Connection conn){
 		if(rs!=null){
@@ -85,7 +85,7 @@ public class JdbcUtil {
 	}
 	
 	/**
-	 * ÊÍ·Å×ÊÔ´·½·¨
+	 * é‡Šæ”¾èµ„æºæ–¹æ³•
 	 */
 	public static void close(Statement stmt,Connection conn){
 		if(stmt!=null){
