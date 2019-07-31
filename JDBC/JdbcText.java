@@ -9,27 +9,78 @@ public class JdbcText {
     private static  String  password="root";
     private  static ResultSet rs=null;
 
-  //预编译对象执行SQL操作
-//    PreparedStatement与Statement的区别就是其可以利用？进行参数站位，后边进行参数的赋值，
-//    PreparedStatement可以进行SQL缓存，Statement不可以，效率要比Statement快
-//    Statement存在SQL注入的风险。PreparedStatement可以有效防止用户的注入
-//预编译的select delet 类似的操作就不在写了
-    public void test4(){
+//    CallableStatement对象执行存储过程
+
+    /*DELIMITER $
+    CREATE PROCEDURE pro_findById(IN sid INT)
+    BEGIN
+    SELECT *FROM student WHERE id=sid;
+    END $*/
+    public void test5(){
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn=DriverManager.getConnection(url,user,password);
+            String sql="CALL pro_findById(?)";
+            CallableStatement  stat=conn.prepareCall(sql);
+            stat.setInt(1,4);
+           rs =stat.executeQuery();//注意。在执行存储过程中必须使用CALL pro_findById
+   while (rs.next()){
 
-            String sql="INSERT INTO student(id,NAME) VALUES (?,?)";
-               PreparedStatement stat=conn.prepareStatement(sql);
-               stat.setString(1,"4");
-               stat.setString(2,"蔡徐坤");
-               stat.executeUpdate();
+       int id=rs.getInt("id");
+       String  name=rs.getString("name");
+      int age=rs.getInt("age") ;
+      System.out.println(id);
+       System.out.println(name);
+       System.out.println(age);
+
+
+   }
+
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+    }
+    //带有输出参数的存储过程
+   /* DELIMITER $
+    CREATE PROCEDURE pro_findById2(IN sid INT,OUT sname VARCHAR(20))
+    BEGIN
+    SELECT NAME INTO sname FROM student WHERE id=sid;
+
+    END $*/
+    public void test6(){
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn=DriverManager.getConnection(url,user,password);
+            String sql="CALL pro_findById2(?,?)";
+            CallableStatement  stat=conn.prepareCall(sql);
+            stat.setInt(1,4);
+//            注册一个输出参数
+//                    参数1：参数的位置
+//                    参数2：表示存储过程的out参数的数据库类型
+
+
+            stat.registerOutParameter(2, Types.VARCHAR);
+
+            stat.executeQuery();
+
+            //结果在输出参数中
+
+          String name=stat.getString(2);//位置与设置输出参数的 位置保持一致
+         System.out.println(name);
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
