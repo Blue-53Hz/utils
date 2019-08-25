@@ -1,0 +1,9 @@
+ /usr/local/hadoop/bin/hadoop jar /usr/local/bigdatacase/hbase/ImportHBase.jar HBaseImportTest /usr/local/bigdatacase/dataset/user_action.output
+命令解释如下：
+
+/usr/local/hadoop/bin/hadoop jar  #hadoop jar包执行方式
+/usr/local/bigdatacase/hbase/ImportHBase.jar  #jar包的路径
+HBaseImportTest   #主函数入口 
+/usr/local/bigdatacase/dataset/user_action.output  #main方法接收的参数args，用来指定输入文件的路径
+
+
